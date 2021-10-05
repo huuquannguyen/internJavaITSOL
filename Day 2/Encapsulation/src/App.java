@@ -1,4 +1,4 @@
-package entity;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -100,8 +100,8 @@ public class App {
         for (BanDoc banDoc : danhSachBanDoc) {
             int demSachDaMuon = demSoSachBanDocDaMuon(banDoc);
             System.out.println("Bạn đọc: " + banDoc.getMaBanDoc() + " - " + banDoc.getHoTen());
-            System.out.println("(Có thể mượn thêm tối đa " + (5 - demSachDaMuon) + ") đầu sách khác");
-            System.out.print("Nhập số lượng sách muốn mượn: " );
+            System.out.println("(Có thể mượn thêm tối đa " + (5 - demSachDaMuon) + " đầu sách khác)");
+            System.out.print("Nhập số lượng đầu sách muốn mượn: " );
             int soLuonng = nhap(input, 1, 5 - demSachDaMuon);
             for(int i = 1; i <= soLuonng; i++){
                 Sach sach = timSachBangId(input, i);
@@ -114,7 +114,7 @@ public class App {
                             System.out.println("Bạn đã mượn tối đa sách này, không thể mượn thêm");
                         }else if(banGhi.getSoLuongSach() + soLuong > 3){
                             System.out.println("Bạn chỉ có thể mượn sách này thêm " + (3 - banGhi.getSoLuongSach()) + " cuốn");
-                            System.out.print("Nhập lại số cuốn");
+                            System.out.print("Nhập lại số cuốn: ");
                             banGhi.setSoLuongSach(banGhi.getSoLuongSach() + nhap(input, 0, 3 - banGhi.getSoLuongSach()));
                             System.out.println("Đã mượn sách thành công. Có thể mượn thêm tối đa " 
                                         + (3 - banGhi.getSoLuongSach()) + " cuốn " + sach.getTenSach());
@@ -133,6 +133,7 @@ public class App {
     }
 
     public static void nhapSachCho1BanDoc(Scanner input){
+        System.out.print("Nhập mã bạn đọc: ");
         String maBanDoc = input.next();
         Optional<BanDoc> rawBanDoc = timBanDocTheoId(maBanDoc);
         if(rawBanDoc.isPresent()){
@@ -245,7 +246,7 @@ public class App {
         boolean lapLai = true;
         Sach sach = null;
         while(lapLai){
-            System.out.println("Nhập mã sách cho cuốn thứ " + index + ": ");
+            System.out.print("Nhập mã sách cho cuốn thứ " + index + ": ");
             String maSach = input.next();
             Optional<Sach> rawSach = khoSach
                                 .stream()

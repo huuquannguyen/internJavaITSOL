@@ -1,5 +1,3 @@
-package entity;
-
 public class QLMuonSach {
     private BanDoc banDoc;
     private Sach sach;
