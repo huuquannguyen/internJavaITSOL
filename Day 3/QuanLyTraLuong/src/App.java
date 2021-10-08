@@ -231,12 +231,13 @@ public class App {
                 }
                 int practicalLessions = lecturerSubject.getSubject().getNumberOfLesson() - 
                                         lecturerSubject.getSubject().getNumberOfTheoryLesson();
-                double salary = lecturerSubject.getSubject().getExpense() * lecturerSubject.getSubject().getNumberOfTheoryLesson() +
-                                lecturerSubject.getSubject().getExpense() * practicalLessions;
+                double salary = (lecturerSubject.getSubject().getExpense() * lecturerSubject.getSubject().getNumberOfTheoryLesson() +
+                                lecturerSubject.getSubject().getExpense() * practicalLessions * 0.7)
+                                 * lecturerSubject.getClassNumber();
                 totalSalary += salary;
                 System.out.println( "Subject: " + lecturerSubject.getSubject().getName() +
                                     " | Class: " + lecturerSubject.getClassNumber() +
-                                    " | Theory lessions: " +lecturerSubject.getSubject().getNumberOfTheoryLesson() +
+                                    " | Theory lessions: " + lecturerSubject.getSubject().getNumberOfTheoryLesson() +
                                     " | Practical lessions: " + practicalLessions + 
                                     " | Expense: " + lecturerSubject.getSubject().getExpense() + 
                                     " | Salary: " + salary );
