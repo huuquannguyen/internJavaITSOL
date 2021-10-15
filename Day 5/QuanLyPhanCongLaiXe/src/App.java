@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
 
 public class App {
@@ -148,6 +147,7 @@ public class App {
 
     public static void printDrivingTable(Scanner input){
         for (DrivingSchedule drivingSchedule : drivingSchedules) {
+            double totalDistance = drivingSchedule.getTotalTakenLines() * drivingSchedule.getAllLineDistance();
             System.out.println("Driver: " + drivingSchedule.getDriver().getId() + " - " + drivingSchedule.getDriver().getName());
             drivingSchedule
             .getLinesAndTurns()
@@ -156,7 +156,8 @@ public class App {
             .forEach(e -> System.out.println("Line: " + e.getKey().getId() +
                                              " | Distance: " + e.getKey().getDistance() +
                                              " | Turns: " + e.getValue() + 
-                                             " | Total distance: " + e.getKey().getDistance() * e.getValue()));
+                                             " | Total line distance : " + e.getKey().getDistance() * e.getValue()));
+            System.out.println("Total distance: " + totalDistance);
         }
     }
 

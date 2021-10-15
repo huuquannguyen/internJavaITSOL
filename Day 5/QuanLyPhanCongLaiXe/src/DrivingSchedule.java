@@ -33,16 +33,14 @@ public class DrivingSchedule {
                 .mapToInt(e -> e.getValue())
                 .sum();
     }
+
+    public double getAllLineDistance(){
+        return linesAndTurns.entrySet().stream().mapToDouble(e -> e.getKey().getDistance()).sum();
+    }
     
     @Override
     public String toString() {
         return driver.getId() + " - " + driver.getName() + " - " + linesAndTurns + " - " + getTotalTakenLines();
     }
 
-    // public void showSchedule(){
-    //     linesAndTurns
-    //     .entrySet()
-    //     .stream()
-    //     .forEach(e -> System.out.println(driver.getId() + " - " + driver.getName() + " - " + e.getKey().getId() + " - " + e.getValue()));
-    // }
 }
