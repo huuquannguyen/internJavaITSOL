@@ -23,33 +23,27 @@ public class Customer {
     private String address;
     private String phone;
     private String type;
-    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<BuyingRecord> buyingRecords;
-    @Transient
-    private Scanner input = new Scanner(System.in);
 
     public Customer() {
-//        try {
-//            this.id = String.valueOf(nextId).substring(1);
-//            nextId++;
-//            if(nextId > 999999){
-//                throw new RuntimeException("Limited customer");
-//            }
-//        } catch (RuntimeException e) {
-//            System.out.println(e.getMessage());
-//        }
+
+    }
+
+    public void input(){
+        Scanner sc = new Scanner(System.in);
         System.out.println("Fill in customer information:");
         System.out.print("Name: ");
-        this.name = input.nextLine();
+        this.name = sc.nextLine();
         System.out.print("Address: ");
-        this.address = input.nextLine();
+        this.address = sc.nextLine();
         System.out.print("Phone: ");
-        this.phone = input.next();
+        this.phone = sc.next();
         System.out.println("1. Mua le");
         System.out.println("2. Mua tap the");
         System.out.println("3. Mua online");
         System.out.print("Choose customer type: ");
-        int option = (int) AppUtil.type(input,1,3);
+        int option = (int) AppUtil.type(sc,1,3);
         switch (option){
             case 1:
                 this.type = MUA_LE;
@@ -98,6 +92,10 @@ public class Customer {
     public void setType(String type) {
             this.type = type;
         }
+
+    public List<BuyingRecord> getBuyingRecords() {
+        return buyingRecords;
+    }
 
     @Override
     public String toString() {

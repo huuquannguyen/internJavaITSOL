@@ -4,13 +4,11 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-public class BuyingRecord {
+public class BuyingRecord implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "GEN_BR_ID")
-    @SequenceGenerator(name = "GEN_BR_ID", sequenceName = "SEQ_BR", allocationSize = 1)
-    private Long id;
     @ManyToOne
     private Customer customer;
+    @Id
     @ManyToOne
     private Ticket ticket;
     private int quantity;
@@ -37,15 +35,31 @@ public class BuyingRecord {
         return quantity;
     }
 
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
-    }
-
-    public void setTicket(Ticket ticket) {
-        this.ticket = ticket;
-    }
+//    public void setCustomer(Customer customer) {
+//        this.customer = customer;
+//    }
+//
+//    public void setTicket(Ticket ticket) {
+//        this.ticket = ticket;
+//    }
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public void addRecord(Customer customer, Ticket ticket){
+        this.customer = customer;
+        this.ticket = ticket;
+        customer.getBuyingRecords().add(this);
+        ticket.getBuyingRecords().add(this);
+    }
+
+    @Override
+    public String toString() {
+        return "BuyingRecord{" +
+                "customer=" + customer +
+                ", ticket=" + ticket +
+                ", quantity=" + quantity +
+                '}';
     }
 }

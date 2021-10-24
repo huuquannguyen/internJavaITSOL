@@ -1,6 +1,7 @@
 package dao;
 
-import entity.Customer;
+import entity.Ticket;
+import entity.Ticket;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
@@ -8,17 +9,17 @@ import util.HibernateUtil;
 
 import java.util.List;
 
-public class CustomerDao {
+public class TicketDao {
 
-    public static boolean createCustomer(Customer customer){
+    public static boolean createTicket(Ticket ticket){
         Session session = HibernateUtil.getSessionFactory().openSession();
         try {
             session.beginTransaction();
-            session.save(customer);
+            session.save(ticket);
             session.getTransaction().commit();
             return true;
         }catch (HibernateException e){
-            System.out.println("Creating new customer not success");
+            System.out.println(e);
             session.getTransaction().rollback();
         }finally {
             session.close();
@@ -26,17 +27,16 @@ public class CustomerDao {
         return false;
     }
 
-    public static Customer findCustomerById(int id){
-        String sql = "FROM Customer WHERE id = :p_customer_id";
+    public static List<Ticket> getAllTickets(){
         Session session = HibernateUtil.getSessionFactory().openSession();
-        try{
+        try {
+            String sql = "FROM Ticket";
             session.beginTransaction();
-            Query<Customer> query = session.createQuery(sql);
-            query.setParameter("p_customer_id", Long.valueOf(id));
-            Customer customer = query.uniqueResult();
+            Query<Ticket> query = session.createQuery(sql);
+            List<Ticket> tickets = query.getResultList();
             session.getTransaction().commit();
-            return customer;
-        }catch(Exception e){
+            return tickets;
+        }catch (HibernateException e){
             System.out.println(e);
             session.getTransaction().rollback();
         }finally {
@@ -45,16 +45,17 @@ public class CustomerDao {
         return null;
     }
 
-    public static List<Customer> getAllCustomers(){
-        String sql = "FROM Customer";
+    public static Ticket findTicketById(int id){
+        String sql = "FROM Ticket WHERE id = :p_ticket_id";
         Session session = HibernateUtil.getSessionFactory().openSession();
-        try {
+        try{
             session.beginTransaction();
-            Query<Customer> query = session.createQuery(sql);
-            List<Customer> customers = query.getResultList();
+            Query<Ticket> query = session.createQuery(sql);
+            query.setParameter("p_ticket_id", Long.valueOf(id));
+            Ticket ticket = query.uniqueResult();
             session.getTransaction().commit();
-            return customers;
-        }catch (HibernateException e){
+            return ticket;
+        }catch(Exception e){
             System.out.println(e);
             session.getTransaction().rollback();
         }finally {
