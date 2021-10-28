@@ -20,21 +20,21 @@ public class Driver {
         } catch (RuntimeException e) {
             System.out.println(e.getMessage());
         }
-        System.out.println("Fill in passenger information:");
-        System.out.print("Name: ");
-        this.name = input.nextLine();
-        System.out.print("Address: ");
-        this.address = input.nextLine();
-        System.out.print("Phone: ");
-        this.phone = input.next();
-        System.out.print("Level(A - F): ");
-        char c = input.next().charAt(0);
-        while(c < 65 || c > 71 ){
-            System.out.print("Type a upper case character (A - F): ");
-            c = input.next().charAt(0);
-        }
-        String level = String.valueOf(c);
-        this.level = level;
+            System.out.println("Fill in passenger information:");
+            System.out.print("Name: ");
+            this.name = input.nextLine();
+            System.out.print("Address: ");
+            this.address = input.nextLine();
+            System.out.print("Phone: ");
+            this.phone = input.next();
+            System.out.print("Level(A - F): ");
+            char c = input.next().charAt(0);
+            while(c < 65 || c > 71 ){
+                System.out.print("Type a upper case character (A - F): ");
+                c = input.next().charAt(0);
+            }
+            String level = String.valueOf(c);
+            this.level = level;
     }
 
     public String getId() {
