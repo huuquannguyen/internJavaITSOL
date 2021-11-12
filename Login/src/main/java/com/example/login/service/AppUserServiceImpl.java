@@ -1,6 +1,7 @@
 package com.example.login.service;
 
 import com.example.login.dto.PasswordDTO;
+import com.example.login.email.EmailServiceImpl;
 import com.example.login.entity.AppUser;
 import com.example.login.entity.OTP;
 import com.example.login.entity.Role;
@@ -8,12 +9,10 @@ import com.example.login.repo.OTPRepo;
 import com.example.login.repo.RoleRepo;
 import com.example.login.repo.UserRepo;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -21,7 +20,6 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -32,6 +30,7 @@ public class AppUserServiceImpl implements AppUserService {
     private final UserRepo userRepo;
     private final OTPRepo otpRepo;
     private final PasswordEncoder passwordEncoder;
+    private final EmailServiceImpl emailService;
 
 
     @Override
@@ -145,4 +144,5 @@ public class AppUserServiceImpl implements AppUserService {
         user.getRoles().forEach(role -> authorities.add(new SimpleGrantedAuthority(role.getName())));
         return new User(user.getUsername(), user.getPassword(), true, true, true, user.isActive(), authorities);
     }
+
 }

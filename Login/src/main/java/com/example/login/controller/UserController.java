@@ -1,6 +1,7 @@
 package com.example.login.controller;
 
 import com.example.login.dto.PasswordDTO;
+import com.example.login.email.EmailServiceImpl;
 import com.example.login.entity.AppUser;
 import com.example.login.entity.OTP;
 import com.example.login.service.AppUserService;
@@ -20,6 +21,7 @@ import java.util.List;
 public class UserController {
 
     private final AppUserService appUserService;
+    private final EmailServiceImpl emailService;
 
     @GetMapping("/users")
     public ResponseEntity<List<AppUser>> getUsers(){
@@ -31,7 +33,8 @@ public class UserController {
         try {
             AppUser user = appUserService.loadUserFromContext();
             OTP otp = appUserService.retrieveNewOTP(user);
-            return ResponseEntity.ok().body(otp.getCode());
+            emailService.sendSimpleMessage(user.getUsername(), "OTP", "OTP: " + otp.getCode());
+            return ResponseEntity.ok().body("check email for OTP");
         }catch (RuntimeException e){
             return ResponseEntity.internalServerError().body(e.getMessage());
         }
@@ -43,9 +46,10 @@ public class UserController {
         try {
             if(appUserService.verifyPassword(user, passwordDTO)){
                 OTP otp = appUserService.retrieveNewOTP(user);
-                return ResponseEntity.ok()
-                        .header("new-password", passwordDTO.getNewPassword())
-                        .body(otp.getCode());
+                emailService.sendSimpleMessage(user.getUsername(),
+                        "Change password",
+                        "OTP: " + otp.getCode() + "\nNew password: " + passwordDTO.getNewPassword());
+                return ResponseEntity.ok().body("Check mail for OTP to commit changing");
             }else{
                 return ResponseEntity.badRequest().body("Failed changing password");
             }

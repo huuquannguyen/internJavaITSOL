@@ -11,3 +11,14 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.OracleDialect
         format_sql: true
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: cutetiger98.java@gmail.com
+    password: vkqingjddopedqbw
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true

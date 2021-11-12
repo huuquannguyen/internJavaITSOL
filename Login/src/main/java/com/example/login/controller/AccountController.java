@@ -1,5 +1,6 @@
 package com.example.login.controller;
 
+import com.example.login.email.EmailServiceImpl;
 import com.example.login.entity.OTP;
 import com.example.login.dto.UserSignupDTO;
 import com.example.login.entity.AppUser;
@@ -13,9 +14,10 @@ import org.springframework.web.bind.annotation.*;
 public class AccountController {
 
     private final AppUserService appUserService;
+    private final EmailServiceImpl emailService;
 
     @PostMapping("/signup")
-    public ResponseEntity<?> signup(@RequestBody UserSignupDTO userSignupDTO){
+    public ResponseEntity<String> signup(@RequestBody UserSignupDTO userSignupDTO){
         AppUser user = new AppUser();
         user.setUsername(userSignupDTO.getUsername());
         user.setPassword(userSignupDTO.getPassword());
@@ -23,7 +25,11 @@ public class AccountController {
         user.setActive(false);
         appUserService.saveUser(user);
         OTP otp = appUserService.generateOTP(user);
-        return ResponseEntity.ok().body(otp.getCode());
+        String linkActive = "http://localhost:8080/active/" + user.getId();
+        emailService.sendSimpleMessage(user.getUsername(),
+                                "OTP active account",
+                                   "OTP: " + otp.getCode() + "\nLink activate: " + linkActive);
+        return ResponseEntity.ok().body("check email for OTP");
     }
 
     @PostMapping("/active/{id}")
