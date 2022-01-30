@@ -9,7 +9,6 @@ import com.example.login.service.AppUserServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.LockedException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -28,7 +27,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static org.springframework.http.HttpStatus.FORBIDDEN;
 
 public class AuthenFilter extends UsernamePasswordAuthenticationFilter {
     private AuthenticationManager authenticationManager;
@@ -45,7 +43,7 @@ public class AuthenFilter extends UsernamePasswordAuthenticationFilter {
            AuthenDTO usernamePassword = new ObjectMapper().readValue(request.getInputStream(), AuthenDTO.class);
            UserDetails userDetails = appUserService.loadUserByUsername(usernamePassword.getUsername());
            if(!userDetails.isAccountNonLocked()){
-               response.setHeader("error", "Account is not activated");
+//               response.setHeader("error", "Account is not activated");
                AppUser user = appUserService.getUser(usernamePassword.getUsername());
                OTP newOTP = appUserService.retrieveNewOTP(user);
                new ObjectMapper().writeValue(response.getOutputStream(), newOTP.getCode());
